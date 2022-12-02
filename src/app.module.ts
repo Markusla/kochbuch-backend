@@ -3,8 +3,9 @@ import { SequelizeModule } from '@nestjs/sequelize';
 
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-
+import { IngredientListsModule } from './ingredientlists/ingredientlists.module';
 import { IngredientsModule } from './ingredients/ingredients.module';
+import { RecipesModule } from './recipes/recipes.module';
 
 @Module({
   imports: [
@@ -16,6 +17,8 @@ import { IngredientsModule } from './ingredients/ingredients.module';
       synchronize: true,
     }),
     IngredientsModule,
+    IngredientListsModule,
+    RecipesModule,
   ],
   controllers: [AppController],
   providers: [AppService],

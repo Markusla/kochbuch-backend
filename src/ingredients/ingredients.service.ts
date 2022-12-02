@@ -1,8 +1,4 @@
 import { Injectable } from '@nestjs/common';
-
-import { CreateIngredientDto } from './dto/create-ingredient.dto';
-import { UpdateIngredientDto } from './dto/update-ingredient.dto';
-
 import { InjectModel } from '@nestjs/sequelize';
 import { Ingredient } from './ingredients.model';
 
@@ -13,17 +9,15 @@ export class IngredientsService {
     private IngredientModel: typeof Ingredient,
   ) {}
 
-  create(createIngredientDto: CreateIngredientDto) {
-    return 'This action adds a new ingredient';
+  create(createIngredient: Ingredient): Promise<Ingredient> {
+    return this.IngredientModel.create({ ...createIngredient });
   }
 
   findAll(): Promise<Ingredient[]> {
-    // return `This action returns all ingredients`;
     return this.IngredientModel.findAll();
   }
 
   findOne(id: number): Promise<Ingredient> {
-    // return `This action returns a #${id} ingredient`;
     return this.IngredientModel.findOne({
       where: {
         id,
@@ -31,13 +25,20 @@ export class IngredientsService {
     });
   }
 
-  update(id: number, updateIngredientDto: UpdateIngredientDto) {
-    return `This action updates a #${id} ingredient`;
+  async update(id: number, updateIngredient: Ingredient): Promise<Ingredient> {
+    await this.IngredientModel.update(updateIngredient, {
+      where: {
+        id: id,
+      },
+    });
+
+    return this.findOne(id);
   }
 
   async remove(id: number): Promise<void> {
-    // return `This action removes a #${id} ingredient`;
-    const user = await this.findOne(id);
-    await user.destroy();
+    const ingredient = await this.findOne(id);
+    if (ingredient) {
+      await ingredient.destroy();
+    }
   }
 }

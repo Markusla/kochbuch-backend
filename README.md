@@ -4,6 +4,14 @@ Kochbuch
 
 Eine API mit Rezepten, Zutaten etc.
 
+## Endpoints
+
+/recipes
+
+/ingredients
+
+/ingredientlists
+
 ## Installation
 
 ```bash
